@@ -1,5 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+const dotenv = require("dotenv");
 
 module.exports = {
   devtool: "inline-source-map",
@@ -30,10 +32,14 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js", ".jsx"],
     // 絶対パスを使えるように
     preferRelative: true,
+    modules: ["node_modules", "src"],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "public", "index.html"),
+    }),
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(process.env),
     }),
   ],
 };
