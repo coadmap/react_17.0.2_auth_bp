@@ -4,6 +4,7 @@ import { routes } from "constants/routes";
 import SignInPage from "pages/SignInPage";
 import GlobalContextProvider from "GlobalContextProvider";
 import SignUpPage from "pages/SignUpPage";
+import MyPage from "pages/MyPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path={routes.signIn()} element={<SignInPage />} />
           <Route path={routes.signUp()} element={<SignUpPage />} />
+          <Route path={routes.myPage()} element={<MyPage />} />
         </Routes>
       </GlobalContextProvider>
     </BrowserRouter>

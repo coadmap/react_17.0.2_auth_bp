@@ -8,6 +8,7 @@ interface CurrentAccountUseCase {
   account?: Account;
   isLoggedIn: boolean;
   refetchAccount: (id?: string) => Promise<void>;
+  signOut: () => void;
 }
 
 export const useCurrentAccount = (): CurrentAccountUseCase => {
@@ -30,5 +31,11 @@ export const useCurrentAccount = (): CurrentAccountUseCase => {
     [account, HttpClient, setAccount, setIsLoggedIn]
   );
 
-  return { account, isLoggedIn, refetchAccount };
+  const signOut = useCallback(() => {
+    localStorage.clear();
+    setIsLoggedIn(false);
+    setAccount(undefined);
+  }, [setIsLoggedIn, setAccount]);
+
+  return { account, isLoggedIn, refetchAccount, signOut };
 };
