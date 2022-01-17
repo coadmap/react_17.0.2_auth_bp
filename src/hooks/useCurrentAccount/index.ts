@@ -3,15 +3,19 @@ import { currentAccountContext } from "hooks/useCurrentAccount/currentAccountCon
 import { HttpClient } from "lib/axios";
 import { Account } from "data/account";
 import { APIHost } from "constants/APIHost";
+import { useNavigate } from "react-router-dom";
+import { routes } from "constants/routes";
 
 interface CurrentAccountUseCase {
   account?: Account;
   isLoggedIn: boolean;
   refetchAccount: (id?: string) => Promise<void>;
+  signOut: () => void;
 }
 
 export const useCurrentAccount = (): CurrentAccountUseCase => {
   const { account, isLoggedIn, setAccount, setIsLoggedIn } = useContext(currentAccountContext);
+  const navigate = useNavigate();
 
   const refetchAccount = useCallback(
     async (id?: string) => {
@@ -30,5 +34,12 @@ export const useCurrentAccount = (): CurrentAccountUseCase => {
     [account, HttpClient, setAccount, setIsLoggedIn]
   );
 
-  return { account, isLoggedIn, refetchAccount };
+  const signOut = useCallback(() => {
+    localStorage.clear();
+    setIsLoggedIn(false);
+    setAccount(undefined);
+    navigate(routes.signIn());
+  }, [setIsLoggedIn, setAccount]);
+
+  return { account, isLoggedIn, refetchAccount, signOut };
 };
