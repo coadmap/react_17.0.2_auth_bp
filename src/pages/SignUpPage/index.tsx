@@ -6,21 +6,21 @@ import { Account } from "data/account";
 import PersistenceKeys from "constants/persistenceKeys";
 import { useCurrentAccount } from "hooks/useCurrentAccount";
 
-type SignInFormData = {
+type SignUpFormData = {
   email: string;
   password: string;
 };
 
-type SignInResponse = {
+type SignUpResponse = {
   account: Account;
   token: string;
 };
 
-const SignInPage: VFC = () => {
-  const { register, handleSubmit } = useForm<SignInFormData>();
+const SignUpPage: VFC = () => {
+  const { register, handleSubmit } = useForm<SignUpFormData>();
   const { refetchAccount } = useCurrentAccount();
   const onSubmit = handleSubmit(async (prams) => {
-    const res = await HttpClient.request<SignInResponse>({
+    const res = await HttpClient.request<SignUpResponse>({
       method: "POST",
       url: `${APIHost.AUTH}/sign_in`,
     });
@@ -47,10 +47,10 @@ const SignInPage: VFC = () => {
             required: "パスワードは必須です",
           })}
         />
-        <button>ログイン</button>
+        <button>新規登録</button>
       </form>
     </div>
   );
 };
 
-export default SignInPage;
+export default SignUpPage;
