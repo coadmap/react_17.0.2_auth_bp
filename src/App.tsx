@@ -11,6 +11,7 @@ function App() {
     <BrowserRouter>
       <GlobalContextProvider>
         <Routes>
+          <Route index element={<h1>Hello</h1>} />
           <Route path={routes.signIn()} element={<SignInPage />} />
           <Route path={routes.signUp()} element={<SignUpPage />} />
           <Route path={routes.myPage()} element={<MyPage />} />

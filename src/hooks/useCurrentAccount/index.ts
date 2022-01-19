@@ -31,7 +31,7 @@ export const useCurrentAccount = (): CurrentAccountUseCase => {
         setIsLoggedIn(true);
       });
     },
-    [account, HttpClient, setAccount, setIsLoggedIn]
+    [account, setAccount, setIsLoggedIn]
   );
 
   const signOut = useCallback(() => {
@@ -39,7 +39,7 @@ export const useCurrentAccount = (): CurrentAccountUseCase => {
     setIsLoggedIn(false);
     setAccount(undefined);
     navigate(routes.signIn());
-  }, [setIsLoggedIn, setAccount]);
+  }, [setIsLoggedIn, setAccount, navigate]);
 
   return { account, isLoggedIn, refetchAccount, signOut };
 };
