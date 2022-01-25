@@ -5,6 +5,7 @@ import { APIHost } from "constants/APIHost";
 import { Account } from "data/account";
 import PersistenceKeys from "constants/persistenceKeys";
 import { useCurrentAccount } from "hooks/useCurrentAccount";
+import styles from "./style.module.scss";
 
 type SignUpFormData = {
   email: string;
@@ -47,7 +48,7 @@ const SignUpPage: VFC = () => {
             required: "パスワードは必須です",
           })}
         />
-        <button>新規登録</button>
+        <button className={styles.red}>新規登録</button>
       </form>
     </div>
   );
