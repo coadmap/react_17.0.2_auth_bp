@@ -10,7 +10,7 @@ export const HttpClient = axios.create({
 });
 
 HttpClient.interceptors.request.use((config: AxiosRequestConfig) => {
-  const newConfig = { ...config };
+  const newConfig = config;
 
   if (config.params) {
     newConfig.params = humps.decamelizeKeys(config.params);
@@ -18,11 +18,13 @@ HttpClient.interceptors.request.use((config: AxiosRequestConfig) => {
   if (config.data) {
     newConfig.data = humps.decamelizeKeys(config.data);
   }
+
+  const token = localStorage.getItem(PersistenceKeys.TOKEN);
+
+  newConfig.headers = {
+    ...config.headers,
+    Authorization: token ? `Bearer ${token}` : "",
+  };
+
   return newConfig;
 });
-
-const token = localStorage.getItem(PersistenceKeys.TOKEN);
-
-if (token) {
-  HttpClient.defaults.headers.common.Authorization = `Bearer ${token}`;
-}

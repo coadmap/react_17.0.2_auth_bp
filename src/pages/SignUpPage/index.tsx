@@ -6,6 +6,8 @@ import { Account } from "data/account";
 import PersistenceKeys from "constants/persistenceKeys";
 import { useCurrentAccount } from "hooks/useCurrentAccount";
 import styles from "./style.module.scss";
+import { useNavigate } from "react-router-dom";
+import { routes } from "constants/routes";
 
 type SignUpFormData = {
   email: string;
@@ -20,15 +22,23 @@ type SignUpResponse = {
 const SignUpPage: VFC = () => {
   const { register, handleSubmit } = useForm<SignUpFormData>();
   const { refetchAccount } = useCurrentAccount();
-  const onSubmit = handleSubmit(async (prams) => {
+  const navigate = useNavigate();
+
+  const onSubmit = handleSubmit(async (params) => {
     const res = await HttpClient.request<SignUpResponse>({
       method: "POST",
-      url: `${APIHost.AUTH}/sign_in`,
+      url: `${APIHost.AUTH}/sign_up`,
+      data: {
+        account: params,
+      },
     });
+
     if (!res.data.token) return;
 
+    navigate(routes.myPage());
     localStorage.setItem(PersistenceKeys.TOKEN, res.data.token);
-    await refetchAccount();
+
+    await refetchAccount(res.data.account.id);
   });
 
   return (

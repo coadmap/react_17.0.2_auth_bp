@@ -5,6 +5,8 @@ import { APIHost } from "constants/APIHost";
 import { Account } from "data/account";
 import PersistenceKeys from "constants/persistenceKeys";
 import { useCurrentAccount } from "hooks/useCurrentAccount";
+import { routes } from "constants/routes";
+import { useNavigate } from "react-router-dom";
 
 type SignInFormData = {
   email: string;
@@ -19,6 +21,7 @@ type SignInResponse = {
 const SignInPage: VFC = () => {
   const { register, handleSubmit } = useForm<SignInFormData>();
   const { refetchAccount } = useCurrentAccount();
+  const navigate = useNavigate();
   const onSubmit = handleSubmit(async (prams) => {
     const res = await HttpClient.request<SignInResponse>({
       method: "POST",
@@ -26,6 +29,7 @@ const SignInPage: VFC = () => {
     });
     if (!res.data.token) return;
 
+    navigate(routes.myPage());
     localStorage.setItem(PersistenceKeys.TOKEN, res.data.token);
     await refetchAccount();
   });
