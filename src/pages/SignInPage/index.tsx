@@ -22,10 +22,16 @@ const SignInPage: VFC = () => {
   const { register, handleSubmit } = useForm<SignInFormData>();
   const { refetchAccount } = useCurrentAccount();
   const navigate = useNavigate();
-  const onSubmit = handleSubmit(async (prams) => {
+
+  const onSubmit = handleSubmit(async (params) => {
+    const submitData = new FormData();
+
+    submitData.append("account", JSON.stringify(params));
+
     const res = await HttpClient.request<SignInResponse>({
       method: "POST",
       url: `${APIHost.AUTH}/sign_in`,
+      data: { account: params },
     });
     if (!res.data.token) return;
 
