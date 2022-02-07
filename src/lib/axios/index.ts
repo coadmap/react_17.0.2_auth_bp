@@ -19,11 +19,15 @@ HttpClient.interceptors.request.use((config: AxiosRequestConfig) => {
     Authorization: token ? `Bearer ${token}` : "",
   };
 
-  if (config.headers?.["content-type"] === "application/json") {
-    if (config.params) {
-      newConfig.params = humps.decamelizeKeys(config.params);
-    }
+  if (config.params) {
+    newConfig.params = humps.decamelizeKeys(config.params);
+  }
 
+  if (!(config.data instanceof FormData)) {
+    humps.decamelizeKeys(config.data);
+  }
+
+  if (config.headers?.["content-type"] === "application/json") {
     if (config.params) {
       newConfig.data = humps.decamelizeKeys(config.data);
     }

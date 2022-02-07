@@ -24,10 +24,6 @@ const SignInPage: VFC = () => {
   const navigate = useNavigate();
 
   const onSubmit = handleSubmit(async (params) => {
-    const submitData = new FormData();
-
-    submitData.append("account", JSON.stringify(params));
-
     const res = await HttpClient.request<SignInResponse>({
       method: "POST",
       url: `${APIHost.AUTH}/sign_in`,
